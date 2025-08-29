@@ -1,0 +1,11 @@
+uuid: f8df96eb-e1c1-4705-b7e1-ff49da9de19d
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.group
+id: node.group
+target_entity_type_id: node
+target_bundle: group
+default_langcode: site_default
+language_alterable: false

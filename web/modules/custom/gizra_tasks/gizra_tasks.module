@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function gizra_tasks_theme($existing, $type, $theme, $path) {
+  return [
+    'group_subscribe_message' => [
+      'variables' => [
+        'name' => NULL,
+        'group' => NULL,
+        'url' => NULL,
+        'request' => NULL,
+      ],
+    ],
+  ];
+}
