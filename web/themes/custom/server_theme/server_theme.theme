@@ -266,6 +266,13 @@ function server_theme_theme() {
     ],
   ];
 
+  // Person card template
+  $info['server_theme_element__person_card'] = [
+    'variables' => [
+      'data' => [],
+    ],
+  ];
+
   // A single Button.
   $info['server_theme_button'] = [
     'variables' => [
