@@ -26,6 +26,7 @@ use Drupal\server_general\ThemeTrait\InfoCardThemeTrait;
 use Drupal\server_general\ThemeTrait\LinkThemeTrait;
 use Drupal\server_general\ThemeTrait\NewsTeasersThemeTrait;
 use Drupal\server_general\ThemeTrait\PeopleTeasersThemeTrait;
+use Drupal\server_general\ThemeTrait\PersonCardThemeTrait;
 use Drupal\server_general\ThemeTrait\QuickLinksThemeTrait;
 use Drupal\server_general\ThemeTrait\QuoteThemeTrait;
 use Drupal\server_general\ThemeTrait\SearchThemeTrait;
@@ -66,7 +67,7 @@ class StyleGuideController extends ControllerBase {
   use TagThemeTrait;
   use TitleAndLabelsThemeTrait;
   use WebformTrait;
-
+  use PersonCardThemeTrait;
 
   /**
    * The link generator service.
@@ -212,6 +213,13 @@ class StyleGuideController extends ControllerBase {
 
     $element = $this->getWebformElement();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Webform');
+
+
+    $element = $this->getPersonCard();
+    $build[] = $this->wrapElementNoContainer($element, 'Person card');
+
+    $element = $this->getPersonCardGrid();
+    $build[] = $this->wrapElementNoContainer($element, 'Person card (Grid)');
 
     return $build;
   }
@@ -646,6 +654,52 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
+   * Get the Person Card element.
+   *
+   * @return array
+   *   Render array.
+   */
+
+  protected function getPersonCard(): array {
+
+    $data = [
+      [
+        'name' => $this->getRandomName(),
+        'position' => $this->getRandomPosition(),
+        'image' => [$this->getPlaceholderPersonImage(100)][0],
+        'role' => $this->getRandomRole(),
+        'email_link' => 'mailto:example@example.com',
+        'call_link' => 'tel:+123456789',
+      ],
+    ];
+
+    return $this->buildElementPersonCard($data);
+  }
+
+  /**
+   * Get the Person Card Grid element.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getPersonCardGrid(): array {
+    $data = [];
+
+    for ($i = 0; $i < 10; $i++) {
+      $data[] = [
+        'name' => $this->getRandomName(),
+        'position' => $this->getRandomPosition(),
+        'image' => [$this->getPlaceholderPersonImage(100)][0],
+        'role' => $this->getRandomRole(),
+        'email_link' => 'mailto:example@example.com',
+        'call_link' => 'tel:+123456789',
+      ];
+    }
+
+    return $this->buildElementPersonCard($data);
+  }
+
+  /**
    * Get the Info cards element.
    *
    * @return array
@@ -880,6 +934,71 @@ class StyleGuideController extends ControllerBase {
     ];
     return $titles[array_rand($titles)];
   }
+
+  /**
+   * Get a random name.
+   *
+   *
+   * @return string
+   *   A random name.
+   */
+  protected function getRandomName(): string {
+    $first_names = [
+      'Jane',
+      'Sara',
+      'John',
+      'Jack',
+    ];
+
+    $last_names = [
+      'Cooper',
+      'Brown',
+      'Williams',
+      'Miller',
+    ];
+
+    $first = $first_names[array_rand($first_names)];
+    $last = $last_names[array_rand($last_names)];
+
+    return "$first $last";
+  }
+
+  /**
+   * Get a random position.
+   *
+   *
+   * @return string
+   *   A random position.
+   */
+  protected function getRandomPosition(): string {
+    $positions = [
+      'Paradigm Representative',
+      'Solutions Strategist',
+      'Experience Architect',
+      'Transformation Advisor',
+    ];
+
+    return $positions[array_rand($positions)];
+  }
+
+  /**
+   * Get a random role.
+   *
+   *
+   * @return string
+   *   A random role.
+   */
+  protected function getRandomRole(): string {
+    $roles = [
+      'Admin',
+      'Super Admin',
+      'Editor',
+      'Viewer',
+    ];
+
+    return $roles[array_rand($roles)];
+  }
+
 
   /**
    * Generate related content.
