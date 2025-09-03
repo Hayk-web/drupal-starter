@@ -1,0 +1,7 @@
+<div class="subscribe-message">
+  {% if request %}
+    <p>Hi {{ name }}, click <a class="underline" href="{{ url }}">here</a> if you would like to subscribe to this group called {{ group }}.</p>
+  {% else %}
+    <p>You are the group manager.</p>
+  {% endif %}
+</div>
