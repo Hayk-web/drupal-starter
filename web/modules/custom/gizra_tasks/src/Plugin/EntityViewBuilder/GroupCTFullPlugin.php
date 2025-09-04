@@ -31,45 +31,52 @@ class GroupCTFullPlugin extends NodeViewBuilderAbstract {
    *   Render array.
    */
   public function buildFull(array $build, NodeInterface $entity) {
+    // Always keep the original build metadata.
+    $original = $build;
 
-    $build = [];
     $current_user = \Drupal::currentUser();
 
-    // Only act if user is logged in.
+    // Initialize content block.
+    $content = [];
+
     if ($current_user->isAuthenticated()) {
       $user = User::load($current_user->id());
-      // Check if the node is a group.
+
       if (Og::isGroup($entity->getEntityTypeId(), $entity->bundle())) {
         if ($entity->getOwnerId() != $user->id()) {
-          /** @var \Drupal\og\OgAccess $access_manager */
           $access_manager = \Drupal::service('og.access');
           if (($access = $access_manager->userAccess($entity, 'subscribe', $user)) && $access->isAllowed()) {
-            /** @var \Drupal\og\MembershipManager $membership_manager */
             $membership_manager = \Drupal::service('og.membership_manager');
             if ($membership_manager->getMembership($entity, $current_user->id()) == NULL) {
-              $parameters = [
+              $url = Url::fromRoute('og.subscribe', [
                 'entity_type_id' => $entity->getEntityTypeId(),
                 'group' => $entity->id(),
                 'og_membership_type' => OgMembershipInterface::TYPE_DEFAULT,
-              ];
-              $url = Url::fromRoute('og.subscribe', $parameters);
-              $build[] = [
+              ]);
+              $content[] = [
                 '#theme' => 'group_subscribe_message',
                 '#name' => $user->getDisplayName(),
                 '#group' => $entity->label(),
                 '#url' => $url,
-                '#request' => true
+                '#request' => TRUE,
               ];
             }
           }
-        } else {
-          $build[] = [
-            '#theme' => 'group_subscribe_message'
+        }
+        else {
+          $content[] = [
+            '#theme' => 'group_subscribe_message',
           ];
         }
       }
     }
 
-    return $build;
+    // Append your content to the original build safely.
+    $original['group_subscribe'] = [
+      '#type' => 'container',
+      'content' => $content,
+    ];
+
+    return $original;
   }
 }
