@@ -41,6 +41,11 @@ hooks:
     # Enable Devel.
     - exec: drush pm-enable devel -y
 
+    # Import config.
+    - exec: drush cr
+    - exec: drush cim -y
+    - exec: drush cr
+
     # @see https://www.drupal.org/node/947312
     - exec: drush user-block --uid=1
 

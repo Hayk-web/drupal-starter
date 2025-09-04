@@ -1,4 +1,4 @@
-name: "Giza tasks"
+name: "Gizra tasks"
 type: module
 description: "The module includes both backend and frontend test tasks for Gizra"
 core_version_requirement: ^9 || ^10 || ^11
