@@ -60,6 +60,17 @@ class GroupCTFullPlugin extends NodeViewBuilderAbstract {
     );
   }
 
+  /**
+   * Build full view mode.
+   *
+   * @param array $build
+   *   The existing build.
+   * @param \Drupal\node\NodeInterface $entity
+   *   The entity.
+   *
+   * @return array
+   *   Render array.
+   */
   public function buildFull(array $build, NodeInterface $entity): array {
     $original = $build;
     $content = [];
